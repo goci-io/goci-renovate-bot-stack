@@ -68,7 +68,6 @@ resource "kubernetes_cron_job" "renovate" {
 
               security_context {
                 run_as_user = 1000
-                fs_group    = 1000
               }
 
               resources {

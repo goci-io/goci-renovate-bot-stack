@@ -58,7 +58,8 @@ resource "kubernetes_cron_job" "renovate" {
               name = "private-key"
 
               secret {
-                secret_name = "${var.name}-key"
+                default_mode = "0400"
+                secret_name  = "${var.name}-key"
               }
             }
 
@@ -83,12 +84,14 @@ resource "kubernetes_cron_job" "renovate" {
               }
 
               volume_mount {
+                read_only  = true
                 name       = "config"
                 sub_path   = "config.json"
                 mount_path = "/usr/src/app/config.json"
               }
 
               volume_mount {
+                read_only  = true
                 name       = "private-key"
                 sub_path   = "decrypt.key"
                 mount_path = "/usr/src/app/decrypt.key"

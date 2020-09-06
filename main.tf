@@ -68,7 +68,8 @@ resource "kubernetes_cron_job" "renovate" {
               image = "renovate/renovate:${var.renovate_version}"
 
               security_context {
-                run_as_user = 1000
+                run_as_user                = 1000
+                allow_privilege_escalation = false
               }
 
               resources {

@@ -12,5 +12,5 @@
             }
         }
     ],
-    "repositories": [${repositories_csv}]
+    "repositories": ${repositories}
 }

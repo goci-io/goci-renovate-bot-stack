@@ -9,7 +9,7 @@ resource "kubernetes_config_map" "renovate_config" {
       git_type            = var.git_type
       git_endpoint        = var.git_endpoint
       git_encrypted_token = var.git_encrypted_token
-      repositories_csv    = join(", ", var.repositories)
+      repositories        = jsonencode(var.repositories)
     })
   }
 }

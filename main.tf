@@ -24,7 +24,7 @@ resource "kubernetes_cron_job" "renovate" {
     failed_jobs_history_limit     = 3
     successful_jobs_history_limit = 1
     starting_deadline_seconds     = 300
-    suspend                       = true
+    suspend                       = false
     schedule                      = var.schedule
     concurrency_policy            = "Replace"
 

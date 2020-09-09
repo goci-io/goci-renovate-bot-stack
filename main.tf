@@ -1,3 +1,14 @@
+resource "kubernetes_secret" "renovate_secrets" {
+  metadata {
+    name      = var.name
+    namespace = var.k8s_namespace
+  }
+
+  data = {
+    RENOVATE_TOKEN = var.git_token
+  }
+}
+
 resource "kubernetes_config_map" "renovate_config" {
   metadata {
     name      = var.name
@@ -6,10 +17,9 @@ resource "kubernetes_config_map" "renovate_config" {
 
   data = {
     "config.json" = templatefile("${path.module}/templates/config.json", {
-      git_type            = var.git_type
-      git_endpoint        = var.git_endpoint
-      git_encrypted_token = var.git_encrypted_token
-      repositories        = jsonencode(var.repositories)
+      git_type     = var.git_type
+      git_endpoint = var.git_endpoint
+      repositories = jsonencode(var.repositories)
     })
   }
 }
@@ -47,10 +57,10 @@ resource "kubernetes_cron_job" "renovate" {
             restart_policy = "OnFailure"
 
             volume {
-              name = "config"
+              name = "secrets"
 
-              config_map {
-                name = kubernetes_config_map.renovate_config.metadata.0.name
+              secret {
+                name = kubernetes_secret.renovate_secrets.metadata.0.name
               }
             }
 
@@ -82,6 +92,12 @@ resource "kubernetes_cron_job" "renovate" {
                 limits {
                   cpu    = "300m"
                   memory = "128Mi"
+                }
+              }
+
+              env_from {
+                secret_ref {
+                  name = kubernetes_config_map.renovate_config.metadata.0.name
                 }
               }
 

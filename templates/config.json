@@ -4,13 +4,5 @@
     "endpoint": "${git_endpoint}",
     "privateKeyPath": "/usr/src/app/tls/decrypt.key",
     "trustLevel": "low",
-    "hostRules": [
-        {
-            "baseUrl": "${git_endpoint}",
-            "encrypted": {
-                "token": "${git_encrypted_token}"
-            }
-        }
-    ],
     "repositories": ${repositories}
 }

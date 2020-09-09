@@ -6,7 +6,7 @@ variable "name" {
 
 variable "schedule" {
   type        = string
-  default     = "0 8-18/2 * * 1-5"
+  default     = "0 */12 * * 1-5"
   description = "Schedule to run Renovate Bot. Defaults to every 2 Hours between 6am and 6pm on Monday to Friday"
 }
 
@@ -22,10 +22,10 @@ variable "git_endpoint" {
   description = "Endpoint to the Git Platform API"
 }
 
-variable "git_encrypted_token" {
+variable "git_token" {
   type        = string
   default     = ""
-  description = "Git Token encrypted using the Private Key specified in your Private Key Secret"
+  description = "Git Token used for Renovate to checkout Repositories and create OnBoarding for example"
 }
 
 variable "repositories" {

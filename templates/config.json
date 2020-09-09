@@ -2,7 +2,7 @@
     "gitAuthor": "Renovate Bot <apps+renovate@goci.io>",
     "platform": "${git_type}",
     "endpoint": "${git_endpoint}",
-    "privateKeyPath": "/usr/src/app/tls/decrypt.key",
+    "privateKeyPath": "/usr/src/app/decrypt.key",
     "trustLevel": "low",
     "repositories": ${repositories}
 }

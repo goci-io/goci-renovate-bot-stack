@@ -1,7 +1,9 @@
 locals {
-  bitbucket_app_credentials = var.git_type != "bitbucket" || var.app_username == "" ? {} : {
+  auth_credentials = var.git_type == "bitbucket" && var.app_username != "" ? {
     RENOVATE_USERNAME = var.app_username
     RENOVATE_PASSWORD = var.app_password
+  } : {
+    RENOVATE_TOKEN = var.git_token
   }
 }
 
@@ -27,12 +29,7 @@ resource "kubernetes_secret" "renovate_secrets" {
     namespace = var.k8s_namespace
   }
 
-  data = merge(
-    local.bitbucket_app_credentials,
-    {
-      RENOVATE_TOKEN = var.git_token
-    }
-  )
+  data = local.auth_credentials
 }
 
 resource "kubernetes_config_map" "renovate_config" {

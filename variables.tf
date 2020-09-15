@@ -6,8 +6,8 @@ variable "name" {
 
 variable "schedule" {
   type        = string
-  default     = "0 */12 * * 1-5"
-  description = "Schedule to run Renovate Bot. Defaults to every 2 Hours between 6am and 6pm on Monday to Friday"
+  default     = "0 6 * * 1"
+  description = "Schedule to run Renovate Bot. Defaults to Monday at 6am."
 }
 
 variable "git_type" {

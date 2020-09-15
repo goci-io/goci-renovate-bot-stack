@@ -1,3 +1,12 @@
+locals {
+  auth_credentials = var.git_type == "bitbucket" && var.app_username != "" ? {
+    RENOVATE_USERNAME = var.app_username
+    RENOVATE_PASSWORD = var.app_password
+    } : {
+    RENOVATE_TOKEN = var.git_token
+  }
+}
+
 resource "tls_private_key" "encryption" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -20,9 +29,7 @@ resource "kubernetes_secret" "renovate_secrets" {
     namespace = var.k8s_namespace
   }
 
-  data = {
-    RENOVATE_TOKEN = var.git_token
-  }
+  data = local.auth_credentials
 }
 
 resource "kubernetes_config_map" "renovate_config" {
@@ -32,10 +39,13 @@ resource "kubernetes_config_map" "renovate_config" {
   }
 
   data = {
-    "config.json" = templatefile("${path.module}/templates/config.json", {
-      git_type     = var.git_type
-      git_endpoint = var.git_endpoint
-      repositories = jsonencode(var.repositories)
+    "config.json" = jsonencode({
+      gitAuthor      = "Renovate Bot <apps+renovate@goci.io>"
+      platform       = var.git_type
+      endpoint       = var.git_endpoint
+      repositories   = var.repositories
+      privateKeyPath = "/usr/src/app/decrypt.key"
+      trustLevel     = "low"
     })
   }
 }

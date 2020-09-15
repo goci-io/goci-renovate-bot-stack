@@ -32,10 +32,14 @@ resource "kubernetes_config_map" "renovate_config" {
   }
 
   data = {
-    "config.json" = templatefile("${path.module}/templates/config.json", {
-      git_type     = var.git_type
-      git_endpoint = var.git_endpoint
-      repositories = jsonencode(var.repositories)
+    "config.json" = jsonencode({
+      gitAuthor      = "Renovate Bot <apps+renovate@goci.io>"
+      platform       = var.git_type
+      endpoint       = var.git_endpoint
+      username       = var.git_username
+      repositories   = var.repositories
+      privateKeyPath = "/usr/src/app/decrypt.key"
+      trustLevel     = "low"
     })
   }
 }

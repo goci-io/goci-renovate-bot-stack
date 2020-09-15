@@ -22,6 +22,12 @@ variable "git_endpoint" {
   description = "Endpoint to the Git Platform API"
 }
 
+variable "git_username" {
+  type        = string
+  default     = ""
+  description = "Git User used for Authentication. Specifically used for BitBucket App Auth"
+}
+
 variable "git_token" {
   type        = string
   default     = ""

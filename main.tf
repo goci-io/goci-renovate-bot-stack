@@ -1,7 +1,7 @@
 locals {
-  auth_credentials = var.git_type == "bitbucket" && var.app_username != "" ? {
-    RENOVATE_USERNAME = var.app_username
-    RENOVATE_PASSWORD = var.app_password
+  auth_credentials = var.git_type == "bitbucket" && var.git_app_username != "" ? {
+    RENOVATE_USERNAME = var.git_app_username
+    RENOVATE_PASSWORD = var.git_token
     } : {
     RENOVATE_TOKEN = var.git_token
   }

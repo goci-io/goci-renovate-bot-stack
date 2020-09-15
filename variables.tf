@@ -25,19 +25,13 @@ variable "git_endpoint" {
 variable "git_token" {
   type        = string
   default     = ""
-  description = "Git Token used for Renovate to checkout Repositories and create OnBoarding for example"
+  description = "Git Token or BitBucket App Password used for Renovate to checkout Repositories and create Merge Requests"
 }
 
-variable "app_username" {
+variable "git_app_username" {
   type        = string
   default     = ""
   description = "Git User/App Name used for Authentication. Required for BitBucket App Passwords"
-}
-
-variable "app_password" {
-  type        = string
-  default     = ""
-  description = "Git User/App Password used for Authentication. Required for BitBucket App Passwords"
 }
 
 variable "repositories" {

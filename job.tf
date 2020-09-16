@@ -7,7 +7,7 @@ resource "kubernetes_cron_job" "renovate" {
   spec {
     failed_jobs_history_limit     = 3
     successful_jobs_history_limit = 1
-    starting_deadline_seconds     = 300
+    starting_deadline_seconds     = 600
     suspend                       = false
     schedule                      = var.schedule
     concurrency_policy            = "Replace"
@@ -15,7 +15,7 @@ resource "kubernetes_cron_job" "renovate" {
     job_template {
       metadata {
         labels = {
-          app     = "renovatebot"
+          app     = "renovate-bot"
           release = var.name
         }
       }

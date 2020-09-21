@@ -25,7 +25,12 @@ resource "kubernetes_cron_job" "renovate" {
         ttl_seconds_after_finished = 1800
 
         template {
-          metadata {}
+          metadata {
+            labels = {
+              app     = "renovate-bot"
+              release = var.name
+            }
+          }
 
           spec {
             restart_policy = "OnFailure"
